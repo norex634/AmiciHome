@@ -1,0 +1,194 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block body %}
+
+   <div class="container text-white">
+
+   {# {% for classe in classes %}
+        <h2>{{ classe.nom }} : <img classe='' src="{{classe.image.path}}" alt="Image de la classe"></h2>
+        <pre>
+            {{ dump(classe) }}
+        </pre>
+    {% for spe in classe.spe %}
+        {{spe.nom}} : {{spe.speRole.nom}}
+
+        <pre>
+            {{ dump(spe) }}
+        </pre>
+
+
+    {% endfor %}
+    
+    {% endfor %} #}
+
+    {# <pre>
+        {{ dump(users) }}
+    </pre>
+    {% for user in users %}
+        {{user.username}}
+        {{user.classe.nom}}
+    {% endfor %} #}
+
+    {% if app.user %}
+
+    <pre>
+        {{ dump(app.user) }}
+    </pre>
+    {% if app.user.spe == null %}
+    <div class="alert alert-danger" role="alert">
+    Compléter votre inscription en cliquant <a href="{{path('Registerfull')}}">ici</a> 
+    </div>
+    {% endif %}
+    
+
+    {% endif %}
+
+   </div>
+
+<div class="container py-4 bg-dark">
+
+    <div class="p-5 mb-4 bg-body-tertiary rounded-3">
+      <div class="container-fluid py-5">
+        <h1 class="display-5 fw-bold">Nos Ambition ?</h1>
+        <p class="col-md-8 fs-4">
+        L'ambition de la guilde est l'ambition de chacun de ses joueurs : donner le meilleur et se perfectionner dans un climat de critique saine!
+
+Nous cherchons à clean le Mythic le plus rapidement possible avec trois soirs par semaine.
+
+Pour se faire, nous demandons un niveau de jeu très élevé, afin de constituer un apport pour le roster et non un poids.
+
+Si vous pensez correspondre à ces critères et que vous avez envie d'évoluer parmi des joueurs ayant les mêmes idéaux que vous, venez nous rencontrer!</p>
+        <button class="btn btn-primary btn-lg" type="button">Rejoins-Nous</button>
+      </div>
+    </div>
+
+    <div class="row align-items-md-stretch">
+      <div class="col-md-6">
+        <div class="h-100 p-5 text-bg-dark rounded-3 border">
+          <h2>Nos dernière news</h2>
+          <p>Quatrième boss en Mode Mytique tomber apres 2 semaine : Rashok n'est plus. </p>
+          <button class="btn btn-outline-light" type="button">Voir la news</button>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="h-100 p-5 bg-body-tertiary border rounded-3">
+          <h2>Nous recruton</h2>
+          <p>La guilde Amici recherche toujours des joueurs adultes et impliqués pour sa progression Mythic.
+            Avec l'arrivée de DF, nous sommes à la recherche de nouveaux joueurs afin de renforcer notre roster en vue du progress qui arrive..</p>
+          <button class="btn btn-outline-secondary" type="button">Rejoins-nous</button>
+        </div>
+      </div>
+    </div>
+
+
+        {# rooster #}
+    <div class="my-3 p-3 bg-dark rounded shadow-sm text-white">
+    <h6 class=" pb-2 mb-0">Rooster</h6>
+
+    {# Tank #}
+    <h6 class="border-bottom border-top pt-2 pb-2 mb-0 mt-2"><img width="32" height="32" src="/images/role/tank.jpg" alt=""> Tank</h6>
+    
+    <div class="d-flex text-body-secondary pt-3 ">
+        <img class= "me-2" width="32" height="32" src="/images/classe/demo/demo.jpg" alt="">
+        <strong class="d-block text-white me-2">@Moule</strong>
+    </div>
+    <div class="d-flex text-body-secondary pt-3 ">
+        <img class= "me-2" width="32" height="32" src="/images/classe/demo/demo.jpg" alt="">
+        <strong class="d-block text-white me-2">@Moule</strong>
+    </div>
+
+
+
+    {# DPS #}
+    <h6 class="border-bottom border-top pt-2 pb-2 mb-0 mt-2"><img width="32" height="32" src="/images/role/dps.jpg" alt=""> Dps</h6>
+    <div class="d-flex text-body-secondary pt-3">
+        <img class= "me-2" width="32" height="32" src="/images/classe/demo/demo.jpg" alt="">
+        <strong class="d-block text-white me-2">@Moule</strong>
+    </div>
+    <div class="d-flex text-body-secondary pt-3">
+        <img class= "me-2" width="32" height="32" src="/images/classe/demo/demo.jpg" alt="">
+        <strong class="d-block text-white me-2">@Moule</strong>
+    </div>
+    <div class="d-flex text-body-secondary pt-3">
+        <img class= "me-2" width="32" height="32" src="/images/classe/demo/demo.jpg" alt="">
+        <strong class="d-block text-white me-2">@Moule</strong>
+    </div>
+    <div class="d-flex text-body-secondary pt-3">
+        <img class= "me-2" width="32" height="32" src="/images/classe/demo/demo.jpg" alt="">
+        <strong class="d-block text-white me-2">@Moule</strong>
+    </div>
+    <div class="d-flex text-body-secondary pt-3">
+        <img class= "me-2" width="32" height="32" src="/images/classe/demo/demo.jpg" alt="">
+        <strong class="d-block text-white me-2">@Moule</strong>
+    </div>
+    <div class="d-flex text-body-secondary pt-3">
+        <img class= "me-2" width="32" height="32" src="/images/classe/demo/demo.jpg" alt="">
+        <strong class="d-block text-white me-2">@Moule</strong>
+    </div>
+    <div class="d-flex text-body-secondary pt-3">
+        <img class= "me-2" width="32" height="32" src="/images/classe/demo/demo.jpg" alt="">
+        <strong class="d-block text-white me-2">@Moule</strong>
+    </div>
+    <div class="d-flex text-body-secondary pt-3">
+        <img class= "me-2" width="32" height="32" src="/images/classe/demo/demo.jpg" alt="">
+        <strong class="d-block text-white me-2">@Moule</strong>
+    </div>
+    <div class="d-flex text-body-secondary pt-3">
+        <img class= "me-2" width="32" height="32" src="/images/classe/demo/demo.jpg" alt="">
+        <strong class="d-block text-white me-2">@Moule</strong>
+    </div>
+    <div class="d-flex text-body-secondary pt-3">
+        <img class= "me-2" width="32" height="32" src="/images/classe/demo/demo.jpg" alt="">
+        <strong class="d-block text-white me-2">@Moule</strong>
+    </div>
+    <div class="d-flex text-body-secondary pt-3">
+        <img class= "me-2" width="32" height="32" src="/images/classe/demo/demo.jpg" alt="">
+        <strong class="d-block text-white me-2">@Moule</strong>
+    </div>
+    <div class="d-flex text-body-secondary pt-3">
+        <img class= "me-2" width="32" height="32" src="/images/classe/demo/demo.jpg" alt="">
+        <strong class="d-block text-white me-2">@Moule</strong>
+    </div>
+    <div class="d-flex text-body-secondary pt-3">
+        <img class= "me-2" width="32" height="32" src="/images/classe/demo/demo.jpg" alt="">
+        <strong class="d-block text-white me-2">@Moule</strong>
+    </div>
+    <div class="d-flex text-body-secondary pt-3">
+        <img class= "me-2" width="32" height="32" src="/images/classe/demo/demo.jpg" alt="">
+        <strong class="d-block text-white me-2">@Moule</strong>
+    </div>
+
+
+    {# HEAL #}
+    <h6 class="border-bottom border-top pt-2 pb-2 mb-0 mt-2"><img width="32" height="32" src="/images/role/heal.jpg" alt=""> Heal</h6>
+    <div class="d-flex text-body-secondary pt-3">
+        <img class= "me-2" width="32" height="32" src="/images/classe/demo/demo.jpg" alt="">
+        <strong class="d-block text-white me-2">@Moule</strong>
+    </div>
+    <div class="d-flex text-body-secondary pt-3">
+        <img class= "me-2" width="32" height="32" src="/images/classe/demo/demo.jpg" alt="">
+        <strong class="d-block text-white me-2">@Moule</strong>
+    </div>
+    <div class="d-flex text-body-secondary pt-3">
+        <img class= "me-2" width="32" height="32" src="/images/classe/demo/demo.jpg" alt="">
+        <strong class="d-block text-white me-2">@Moule</strong>
+    </div>
+    <div class="d-flex text-body-secondary pt-3">
+        <img class= "me-2" width="32" height="32" src="/images/classe/demo/demo.jpg" alt="">
+        <strong class="d-block text-white me-2">@Moule</strong>
+    </div>
+    
+    
+    
+  </div>
+    
+
+
+    <div class="pt-3 mt-4 text-body-secondary border-top">
+    </div>
+  </div>
+
+  
+{% endblock %}
