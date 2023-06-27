@@ -38,7 +38,7 @@ class ContactController extends AbstractController
             // email
             $email = (new Email())
             ->from($contact->getEmail())
-            ->to('Admin@amici.com')
+            ->to('admin@amici-wow.be')
             ->subject($contact->getSubject())
             ->html($contact->getMessage());
 

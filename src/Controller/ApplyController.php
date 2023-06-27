@@ -53,7 +53,6 @@ class ApplyController extends AbstractController
 
     #[Route('/apply', name: 'ApplyShowAll')]
     #[IsGranted("ROLE_ROOSTER", message: "Vous n'avez pas le droit d'accéder à cette ressource")]
-    #[IsGranted("ROLE_ADMIN")]
     public function showAll(ApplyRepository $applyRepo): Response
     {
         $apply = $applyRepo->findAll();
