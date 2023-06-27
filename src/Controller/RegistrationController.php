@@ -49,17 +49,17 @@ class RegistrationController extends AbstractController
             // do anything else you need here, like send an email
 
 
-            $email = (new Email())
-            ->from('admin@amici.com')
-            ->to($user->getemail())
-            ->subject('Confirmer votre compte')
-            ->html(`
-            <h1>Merci pour l'inscription</h1>
-            <p>Cliquer sur le lien pour continuer celle ci : </p>
-            <a href="#">Verifirer votre email</a>
-            `)
-            ->text("mon text");
-            $mailer->send($email);
+            // $email = (new Email())
+            // ->from('admin@amici.com')
+            // ->to($user->getemail())
+            // ->subject('Confirmer votre compte')
+            // ->html(`
+            // <h1>Merci pour l'inscription</h1>
+            // <p>Cliquer sur le lien pour continuer celle ci : </p>
+            // <a href="#">Verifirer votre email</a>
+            // `)
+            // ->text("mon text");
+            // $mailer->send($email);
 
 
             return $userAuthenticatorInterface->authenticateUser($user, $appAuthenticator, $request);
