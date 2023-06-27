@@ -39,8 +39,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?\DateTimeImmutable $dateJoin = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Assert\NotBlank]
-    #[Assert\Length(min: 1, max: 1000, minMessage: "Le description doit faire plus de 1 caractère", maxMessage:"Le description ne doit pas faire plus de 1000 caractères")]
     private ?string $description = null;
 
     #[ORM\OneToOne(inversedBy: 'user', cascade: ['persist', 'remove'])]
