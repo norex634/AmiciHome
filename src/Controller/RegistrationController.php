@@ -5,8 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use Symfony\Component\Mime\Email;
 use App\Form\RegistrationFormType;
-use App\Form\RegisterFullFormType;
-use App\Repository\UserRepository;
+use App\Security\AppAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
@@ -14,11 +13,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'Register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, MailerInterface $mailer): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, MailerInterface $mailer, UserAuthenticatorInterface $userAuthenticatorInterface, AppAuthenticator $appAuthenticator): Response
     {
 
         
@@ -28,7 +28,6 @@ class RegistrationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
-           
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
@@ -36,10 +35,17 @@ class RegistrationController extends AbstractController
                 )
             );
             //user role
-            $user->setRoles(['ROLE_MEMBRE']);
+            $user->setRoles(['ROLE_USER']);
 
             $entityManager->persist($user);
             $entityManager->flush();
+
+
+            $this->addFlash(
+                'success',
+                "Votre compte a bien été créé"
+            );
+
             // do anything else you need here, like send an email
 
 
@@ -55,36 +61,16 @@ class RegistrationController extends AbstractController
             ->text("mon text");
             $mailer->send($email);
 
-            return $this->redirectToRoute('HomePage');
+
+            return $userAuthenticatorInterface->authenticateUser($user, $appAuthenticator, $request);
+
+            // return $this->redirectToRoute('HomePage');
+
+            
         }
 
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView()
-        ]);
-
-    }
-
-    #[Route('/registerfull', name: 'Registerfull')]
-    public function registerfull(Request $request, EntityManagerInterface $entityManager, UserRepository $user ): Response
-    {
-
-        
-        $user = $this->getUser();
-        $form = $this->createForm(RegisterFullFormType::class, $user);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('HomePage');
-        }
-
-        return $this->render('registration/registerfull.html.twig', [
-            'registrationFullForm' => $form->createView(),
-            'user' => $user
         ]);
 
     }

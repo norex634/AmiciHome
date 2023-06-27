@@ -6,44 +6,26 @@
 
    <div class="container text-white">
 
-   {# {% for classe in classes %}
-        <h2>{{ classe.nom }} : <img classe='' src="{{classe.image.path}}" alt="Image de la classe"></h2>
-        <pre>
-            {{ dump(classe) }}
-        </pre>
-    {% for spe in classe.spe %}
-        {{spe.nom}} : {{spe.speRole.nom}}
-
-        <pre>
-            {{ dump(spe) }}
-        </pre>
-
-
-    {% endfor %}
-    
-    {% endfor %} #}
-
-    {# <pre>
-        {{ dump(users) }}
-    </pre>
-    {% for user in users %}
-        {{user.username}}
-        {{user.classe.nom}}
-    {% endfor %} #}
+        
 
     {% if app.user %}
-
-    <pre>
-        {{ dump(app.user) }}
-    </pre>
     {% if app.user.spe == null %}
-    <div class="alert alert-danger" role="alert">
+    <div class="alert alert-danger mt-3" role="alert">
     Compléter votre inscription en cliquant <a href="{{path('Registerfull')}}">ici</a> 
     </div>
     {% endif %}
-    
-
     {% endif %}
+
+    
+    {# {% for article in articles %}
+      <pre>
+        {{ dump(article) }}
+      </pre>
+      {{article.title}} <br>
+      {{article.content}} <br>
+      {{article.category.name}}
+    {% endfor %} #}
+    
 
    </div>
 
@@ -55,136 +37,101 @@
         <p class="col-md-8 fs-4">
         L'ambition de la guilde est l'ambition de chacun de ses joueurs : donner le meilleur et se perfectionner dans un climat de critique saine!
 
-Nous cherchons à clean le Mythic le plus rapidement possible avec trois soirs par semaine.
+        Nous cherchons à clean le Mythic le plus rapidement possible avec trois soirs par semaine.
 
-Pour se faire, nous demandons un niveau de jeu très élevé, afin de constituer un apport pour le roster et non un poids.
+        Pour se faire, nous demandons un niveau de jeu très élevé, afin de constituer un apport pour le roster et non un poids.
 
-Si vous pensez correspondre à ces critères et que vous avez envie d'évoluer parmi des joueurs ayant les mêmes idéaux que vous, venez nous rencontrer!</p>
+        Si vous pensez correspondre à ces critères et que vous avez envie d'évoluer parmi des joueurs ayant les mêmes idéaux que vous, venez nous rencontrer!</p>
         <button class="btn btn-primary btn-lg" type="button">Rejoins-Nous</button>
       </div>
     </div>
 
     <div class="row align-items-md-stretch">
-      <div class="col-md-6">
-        <div class="h-100 p-5 text-bg-dark rounded-3 border">
-          <h2>Nos dernière news</h2>
-          <p>Quatrième boss en Mode Mytique tomber apres 2 semaine : Rashok n'est plus. </p>
-          <button class="btn btn-outline-light" type="button">Voir la news</button>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="h-100 p-5 bg-body-tertiary border rounded-3">
-          <h2>Nous recruton</h2>
-          <p>La guilde Amici recherche toujours des joueurs adultes et impliqués pour sa progression Mythic.
-            Avec l'arrivée de DF, nous sommes à la recherche de nouveaux joueurs afin de renforcer notre roster en vue du progress qui arrive..</p>
-          <button class="btn btn-outline-secondary" type="button">Rejoins-nous</button>
-        </div>
-      </div>
+    <div class="col-md-6">
+        {% if newsArticle %}
+            <div class="h-100 p-5 text-bg-dark rounded-3 border">
+                <h2>{{ newsArticle.title }}</h2>
+                <p>{{ newsArticle.content }}</p>
+            </div>
+        {% endif %}
     </div>
+    <div class="col-md-6">
+        {% if recruitmentArticle %}
+            <div class="h-100 p-5 text-bg-light rounded-3 border">
+                <h2>{{ recruitmentArticle.title }}</h2>
+                <p>{{ recruitmentArticle.content }}</p>
+                {# Gestion des link  #}
+                {% if not app.user %}
+                    <a href="{{ path('Register') }}" class="btn bg-dark text-white">Créer un compte</a>
+                {% endif %}
+
+                {% if app.user and not is_granted('ROLE_ADMIN') and not is_granted('ROLE_ROOSTER') and not is_granted('ROLE_MEMBRE') %}
+                    <a href="{{ path('Registerfull') }}" class="btn bg-dark text-white">Continuer votre inscription</a>
+                {% endif %}
+
+                {% if app.user and is_granted('ROLE_MEMBRE') %}
+                    <a href="{{ path('applyng') }}" class="btn bg-dark text-white">Nous Rejoindre</a>
+                {% endif %}
+
+                
+
+
+                
+            </div>
+        {% endif %}
+    </div>
+</div>
 
 
         {# rooster #}
-    <div class="my-3 p-3 bg-dark rounded shadow-sm text-white">
+    <div class="my-3 p-3 bg-dark rounded text-white">
     <h6 class=" pb-2 mb-0">Rooster</h6>
 
     {# Tank #}
     <h6 class="border-bottom border-top pt-2 pb-2 mb-0 mt-2"><img width="32" height="32" src="/images/role/tank.jpg" alt=""> Tank</h6>
-    
-    <div class="d-flex text-body-secondary pt-3 ">
-        <img class= "me-2" width="32" height="32" src="/images/classe/demo/demo.jpg" alt="">
-        <strong class="d-block text-white me-2">@Moule</strong>
-    </div>
-    <div class="d-flex text-body-secondary pt-3 ">
-        <img class= "me-2" width="32" height="32" src="/images/classe/demo/demo.jpg" alt="">
-        <strong class="d-block text-white me-2">@Moule</strong>
-    </div>
-
-
+    {% for user in users %}
+        {% if 'ROLE_ROOSTER' in user.roles %}
+            {% if user.spe.speRole == "Tank" %}
+            <div class="d-flex text-body-secondary pt-3 ">
+                <img class= "me-2" width="32" height="32" src="/uploads/{{user.spe.image.path}}" alt="">
+                    <strong class="d-block text-white me-2">{{user.username}}</strong>
+            </div>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
 
     {# DPS #}
+    
     <h6 class="border-bottom border-top pt-2 pb-2 mb-0 mt-2"><img width="32" height="32" src="/images/role/dps.jpg" alt=""> Dps</h6>
-    <div class="d-flex text-body-secondary pt-3">
-        <img class= "me-2" width="32" height="32" src="/images/classe/demo/demo.jpg" alt="">
-        <strong class="d-block text-white me-2">@Moule</strong>
-    </div>
-    <div class="d-flex text-body-secondary pt-3">
-        <img class= "me-2" width="32" height="32" src="/images/classe/demo/demo.jpg" alt="">
-        <strong class="d-block text-white me-2">@Moule</strong>
-    </div>
-    <div class="d-flex text-body-secondary pt-3">
-        <img class= "me-2" width="32" height="32" src="/images/classe/demo/demo.jpg" alt="">
-        <strong class="d-block text-white me-2">@Moule</strong>
-    </div>
-    <div class="d-flex text-body-secondary pt-3">
-        <img class= "me-2" width="32" height="32" src="/images/classe/demo/demo.jpg" alt="">
-        <strong class="d-block text-white me-2">@Moule</strong>
-    </div>
-    <div class="d-flex text-body-secondary pt-3">
-        <img class= "me-2" width="32" height="32" src="/images/classe/demo/demo.jpg" alt="">
-        <strong class="d-block text-white me-2">@Moule</strong>
-    </div>
-    <div class="d-flex text-body-secondary pt-3">
-        <img class= "me-2" width="32" height="32" src="/images/classe/demo/demo.jpg" alt="">
-        <strong class="d-block text-white me-2">@Moule</strong>
-    </div>
-    <div class="d-flex text-body-secondary pt-3">
-        <img class= "me-2" width="32" height="32" src="/images/classe/demo/demo.jpg" alt="">
-        <strong class="d-block text-white me-2">@Moule</strong>
-    </div>
-    <div class="d-flex text-body-secondary pt-3">
-        <img class= "me-2" width="32" height="32" src="/images/classe/demo/demo.jpg" alt="">
-        <strong class="d-block text-white me-2">@Moule</strong>
-    </div>
-    <div class="d-flex text-body-secondary pt-3">
-        <img class= "me-2" width="32" height="32" src="/images/classe/demo/demo.jpg" alt="">
-        <strong class="d-block text-white me-2">@Moule</strong>
-    </div>
-    <div class="d-flex text-body-secondary pt-3">
-        <img class= "me-2" width="32" height="32" src="/images/classe/demo/demo.jpg" alt="">
-        <strong class="d-block text-white me-2">@Moule</strong>
-    </div>
-    <div class="d-flex text-body-secondary pt-3">
-        <img class= "me-2" width="32" height="32" src="/images/classe/demo/demo.jpg" alt="">
-        <strong class="d-block text-white me-2">@Moule</strong>
-    </div>
-    <div class="d-flex text-body-secondary pt-3">
-        <img class= "me-2" width="32" height="32" src="/images/classe/demo/demo.jpg" alt="">
-        <strong class="d-block text-white me-2">@Moule</strong>
-    </div>
-    <div class="d-flex text-body-secondary pt-3">
-        <img class= "me-2" width="32" height="32" src="/images/classe/demo/demo.jpg" alt="">
-        <strong class="d-block text-white me-2">@Moule</strong>
-    </div>
-    <div class="d-flex text-body-secondary pt-3">
-        <img class= "me-2" width="32" height="32" src="/images/classe/demo/demo.jpg" alt="">
-        <strong class="d-block text-white me-2">@Moule</strong>
-    </div>
+
+    {% for user in users %}
+        {% if 'ROLE_ROOSTER' in user.roles %}
+            {% if user.spe.speRole == "Dps" %}
+            <div class="d-flex text-body-secondary pt-3 ">
+                <img class= "me-2" width="32" height="32" src="/uploads/{{user.spe.image.path}}" alt="">
+                    <strong class="d-block text-white me-2">{{user.username}}</strong>
+            </div>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
 
 
     {# HEAL #}
     <h6 class="border-bottom border-top pt-2 pb-2 mb-0 mt-2"><img width="32" height="32" src="/images/role/heal.jpg" alt=""> Heal</h6>
-    <div class="d-flex text-body-secondary pt-3">
-        <img class= "me-2" width="32" height="32" src="/images/classe/demo/demo.jpg" alt="">
-        <strong class="d-block text-white me-2">@Moule</strong>
-    </div>
-    <div class="d-flex text-body-secondary pt-3">
-        <img class= "me-2" width="32" height="32" src="/images/classe/demo/demo.jpg" alt="">
-        <strong class="d-block text-white me-2">@Moule</strong>
-    </div>
-    <div class="d-flex text-body-secondary pt-3">
-        <img class= "me-2" width="32" height="32" src="/images/classe/demo/demo.jpg" alt="">
-        <strong class="d-block text-white me-2">@Moule</strong>
-    </div>
-    <div class="d-flex text-body-secondary pt-3">
-        <img class= "me-2" width="32" height="32" src="/images/classe/demo/demo.jpg" alt="">
-        <strong class="d-block text-white me-2">@Moule</strong>
-    </div>
-    
-    
-    
+
+    {% for user in users %}
+        {% if 'ROLE_ROOSTER' in user.roles %}
+            {% if user.spe.speRole == "Heal" %}
+            <div class="d-flex text-body-secondary pt-3 ">
+                <img class= "me-2" width="32" height="32" src="/uploads/{{user.spe.image.path}}" alt="">
+                    <strong class="d-block text-white me-2">{{user.username}}</strong>
+            </div>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+
   </div>
     
-
 
     <div class="pt-3 mt-4 text-body-secondary border-top">
     </div>

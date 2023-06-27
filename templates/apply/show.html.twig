@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block body %}
+
+   <div class="container text-white">
+    
+    <h3 class="text-center mb-5 mt-5">l'apply de : {{apply.nom}}</h3>
+    <h4> log de {{apply.nom}} </h4>
+
+    <div class=" bg-body-tertiary rounded-3 mb-4">
+      <div class="container-fluid py-1">
+        <p class="col-md-8 text-black"><a href="{{apply.log}}">LOG</a></p>
+      </div>
+    </div>
+
+    <h4>Parlez-nous un peu de vous! L'âge, ce que vous faites dans la vie et vos intérêts en dehors de jouer à WoW</h4>
+    <div class=" bg-body-tertiary rounded-3 mb-4">
+      <div class="container-fluid py-1">
+        <p class="col-md-8 text-black">{{apply.about}}</p>
+      </div>
+    </div>
+
+      <h4>Qu'est ce qu'il vous plait chez Amici</h4>
+    <div class=" bg-body-tertiary rounded-3 mb-4">
+      <div class="container-fluid py-1">
+        <p class="col-md-8 text-black">{{apply.why}}</p>
+      </div>
+    </div>
+
+      <h4>Résumez votre expérience de raid et votre historique de guildes</h4>
+    <div class=" bg-body-tertiary rounded-3 mb-4">
+      <div class="container-fluid py-1">
+        <p class="col-md-8 text-black">{{apply.exp}}</p>
+      </div>
+    </div>
+    
+  {# commentaire  #}
+  <h4 class="comment-title mt-5">
+    <span class="comment-count"> {{apply.comments|length}} </span> commentaire(s)
+  </h4>
+  <hr>
+
+  <div class="comment-area mb-5">
+    {{form(commentForm, {'attr': {'class': 'comment-form'}})}}
+  </div>
+
+  <div class="comment-list">
+    {% for comment in apply.comments %}
+      {% include "comment/index.html.twig" with [comment] %}
+    {% endfor %}
+  </div>
+  
+
+   </div>
+    
+
+    <div class="pt-3 mt-4 text-body-secondary border-top">
+    </div>
+
+
+  
+{% endblock %}

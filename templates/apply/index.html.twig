@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+
+<div class="container text-white w-25">
+    <h1>Apply cher Amici</h1>
+
+    {{ form_errors(ApplyForm) }}
+
+    {{ form_start(ApplyForm) }}
+        {{ form_row(ApplyForm.nom) }}
+        {{ form_row(ApplyForm.log) }}
+        {{ form_row(ApplyForm.about) }}
+        {{ form_row(ApplyForm.why) }}
+        {{ form_row(ApplyForm.exp) }}
+        {{ form_row(ApplyForm.btag) }}
+        {{ form_row(ApplyForm.discord) }}
+
+        <button type="submit" class="btn btn-primary mt-2">Envoyer</button>
+        <button type="cancel" class="btn btn-danger mt-2">Annuler</button>
+    {{ form_end(ApplyForm) }}
+    </div>
+{% endblock %}

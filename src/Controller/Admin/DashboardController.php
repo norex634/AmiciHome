@@ -4,14 +4,19 @@ namespace App\Controller\Admin;
 
 use App\Entity\Spe;
 use App\Entity\User;
+use App\Entity\Apply;
 use App\Entity\Image;
 use App\Entity\Classe;
+use App\Entity\Article;
+use App\Entity\Comment;
 use App\Entity\SpeRole;
+use App\Entity\Category;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 
@@ -22,6 +27,7 @@ class DashboardController extends AbstractDashboardController
     ){}
 
     #[Route('/admin', name: 'admin')]
+    #[IsGranted("ROLE_ADMIN", message: "Vous n'avez pas le droit d'accéder à cette ressource")]
     public function index(): Response
     {
 
@@ -65,9 +71,26 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToCrud('Toutes les User','fas fa-user-friends',User::class),
             MenuItem::linkToCrud('Ajouter','fas fa-plus',User::class)->setAction(Crud::PAGE_NEW)
         ]);
-        
-        
 
+        yield MenuItem::subMenu('Apply', 'fas fa-arrow-right')->setSubItems([
+            MenuItem::linkToCrud('Toutes les Apply','fas fa-arrow-right',Apply::class)
+        ]);
+
+        yield MenuItem::subMenu('Comment', 'fas fa-comment')->setSubItems([
+            MenuItem::linkToCrud('Toutes les Commentaires','fas fa-user-comment',Comment::class)
+        ]);
+        // yield MenuItem::subMenu('Catégories', 'fas fa-list')->setSubItems([
+        //     MenuItem::linkToCrud('Toutes les catégories','fas fa-user-comment',Category::class)
+        // ]);
+
+        yield MenuItem::subMenu('News', 'fas fa-newspaper')->setSubItems([
+            MenuItem::linkToCrud('Toutes les news','fas fa-newspaper',Article::class),
+            MenuItem::linkToCrud('Ajouter news','fas fa-plus',Article::class)->setAction(Crud::PAGE_NEW),
+            MenuItem::linkToCrud('Catégories','fas fa-user-comment',Category::class)
+        ]);
+
+        
+        
         
 
         

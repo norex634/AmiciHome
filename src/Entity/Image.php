@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ImageRepository::class)
@@ -25,6 +26,8 @@ class Image
      * @Vich\UploadableField(mapping="image_mapping", fileNameProperty="path")
      */
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 1, max: 255, minMessage: "Le path doit faire plus de 1 caractère", maxMessage:"Le path ne doit pas faire plus de 255 caractères")]
     private ?string $path = null;
 
     #[ORM\OneToOne(mappedBy: 'image', cascade: ['persist', 'remove'])]
