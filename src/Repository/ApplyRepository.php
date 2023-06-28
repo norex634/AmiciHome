@@ -3,8 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Apply;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Apply>
@@ -37,6 +38,14 @@ class ApplyRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function findForPagination() :Query
+    {
+        $qb = $this->createQueryBuilder('a')
+        ->orderBy('a.id', 'DESC');
+
+        return $qb->getQuery();
     }
 
 //    /**

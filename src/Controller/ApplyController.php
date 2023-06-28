@@ -8,6 +8,8 @@ use App\Form\CommentType;
 use App\Form\ApplyFormType;
 use App\Security\AppAuthenticator;
 use App\Repository\ApplyRepository;
+use App\Service\ApplyService;
+use App\Service\CommentService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -53,18 +55,19 @@ class ApplyController extends AbstractController
 
     #[Route('/apply', name: 'ApplyShowAll')]
     #[IsGranted("ROLE_ROOSTER", message: "Vous n'avez pas le droit d'accéder à cette ressource")]
-    public function showAll(ApplyRepository $applyRepo): Response
+    public function showAll(ApplyRepository $applyRepo, ApplyService $applyService): Response
     {
-        $apply = $applyRepo->findAll();
+        // $apply = $applyRepo->findAll();
 
         return $this->render('apply/showall.html.twig', [
-            'applys' => $apply,
+            // 'applys' => $apply,
+            'applys' => $applyService->getPaginatedApply(),
         ]);
     }
 
     #[Route('/apply{slug}', name: 'ApplyShow')]
     #[IsGranted("ROLE_ROOSTER", message: "Vous n'avez pas le droit d'accéder à cette ressource")]
-    public function show(Apply $apply): Response
+    public function show(Apply $apply ): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ROOSTER');
 
