@@ -21,25 +21,29 @@ class RegisterFullController extends AbstractController
     public function registerfull(Request $request, EntityManagerInterface $entityManager, UserRepository $user, UserAuthenticatorInterface $userAuthenticatorInterface, AppAuthenticator $appAuthenticator ): Response
     {
 
-        
+        // Récupérer l'utilisateur connecté
         $user = $this->getUser();
+        // Créer un formulaire avec le type RegisterFullFormType et l'utilisateur actuel
         $form = $this->createForm(RegisterFullFormType::class, $user);
         $form->handleRequest($request);
 
+        // Vérifier si le formulaire a été soumis et est valide
         if ($form->isSubmitted() && $form->isValid()) {
 
-            //user role
+            // Définir le rôle de l'utilisateur sur "ROLE_MEMBRE"
             $user->setRoles(['ROLE_MEMBRE']);
 
-            
+            // Persister l'utilisateur en base de données
             $entityManager->persist($user);
             $entityManager->flush();
             
+            // Ajouter un message flash de succès
             $this->addFlash(
                 'success',
                 "Votre compte a bien été finalisé"
             );
             
+            // Authentifier et connecter l'utilisateur automatiquement
             return $userAuthenticatorInterface->authenticateUser($user, $appAuthenticator, $request);
         }
 

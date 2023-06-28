@@ -28,12 +28,13 @@ class UserCrudController extends AbstractCrudController
 
     public static function getEntityFqcn(): string
     {
+        // Spécifier l'entité associée au contrôleur CRUD
         return User::class;
     }
 
     public function configureFields(string $pageName): iterable
     {
-
+        // Configurer les champs du formulaire pour chaque page
         return [
             TextField::new('username'),
             TextField::new('email'),
@@ -43,7 +44,7 @@ class UserCrudController extends AbstractCrudController
             TextField::new('password'),
 
                 
-            // Add the role field
+            // Ajouter le champ "roles"
             ChoiceField::new('roles')
                 ->setChoices([
                     'Admin' => ['ROLE_ADMIN'],
@@ -58,7 +59,7 @@ class UserCrudController extends AbstractCrudController
 
     public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
 {
-    // Only allow admins to create users
+    // Autoriser uniquement les administrateurs à créer des utilisateurs
     if (!$this->authorizationChecker->isGranted('ROLE_ADMIN')) {
         throw new AccessDeniedException('Access Denied.');
     }
@@ -66,7 +67,7 @@ class UserCrudController extends AbstractCrudController
     $newPassword = $entityInstance->getPassword();
 
     if (!empty($newPassword)) {
-        // Hash the new password before persisting the entity
+        // Hacher le nouveau mot de passe avant de persister l'entité
         $hashedPassword = $this->passwordEncoder->hashPassword($entityInstance, $newPassword);
         $entityInstance->setPassword($hashedPassword);
     }
@@ -76,12 +77,12 @@ class UserCrudController extends AbstractCrudController
 
     public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
-        // Only allow admins to edit users
+        // Autoriser uniquement les administrateurs à modifier des utilisateurs
         if (!$this->authorizationChecker->isGranted('ROLE_ADMIN')) {
             throw new AccessDeniedException('Access Denied.');
         }
 
-        // Remove the password field from the request to prevent it from being updated
+        // Supprimer le champ "password" de la requête pour éviter sa mise à jour
         $request = Request::createFromGlobals();
         $request->request->remove('password');
 
@@ -91,9 +92,12 @@ class UserCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
+        // Configurer les actions disponibles pour le contrôleur CRUD
         $actions = parent::configureActions($actions);
 
         if (!$this->isGranted('ROLE_ADMIN')) {
+            
+            // Désactiver les actions "NEW", "EDIT" et "DELETE" pour les utilisateurs non administrateurs
             $actions->disable(Action::NEW, Action::EDIT, Action::DELETE);
         }
 

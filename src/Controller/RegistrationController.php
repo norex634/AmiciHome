@@ -34,7 +34,7 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
-            //user role
+            // Définir le rôle de l'utilisateur
             $user->setRoles(['ROLE_USER']);
 
             $entityManager->persist($user);
@@ -46,7 +46,7 @@ class RegistrationController extends AbstractController
                 "Votre compte a bien été créé"
             );
 
-            // do anything else you need here, like send an email
+            
 
 
             // $email = (new Email())
@@ -64,7 +64,8 @@ class RegistrationController extends AbstractController
 
             return $userAuthenticatorInterface->authenticateUser($user, $appAuthenticator, $request);
 
-            // return $this->redirectToRoute('HomePage');
+            
+            
 
             
         }

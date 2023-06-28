@@ -19,26 +19,34 @@ class CommentController extends AbstractController
     public function add(Request $request, ApplyRepository $applyrepo, CommentRepository $commentRepo, UserRepository $userRepo, EntityManagerInterface $entityManagerInterface,TokenStorageInterface $tokenStorage): Response
     {
 
+        // Récupérer les données du commentaire à partir de la requête
         $commentData = $request->request->all('comment');
+        // Récupérer l'utilisateur actuellement connecté
         $user = $tokenStorage->getToken()->getUser();
         
+        // Vérifier la validité du jeton CSRF
         if(!$this->isCsrfTokenValid('comment-add', $commentData['_token'])){
             return $this->json([
                 'code' => 'INVALIDE_CSRF_TOKEN'
             ],Response::HTTP_BAD_REQUEST);
         }
 
+        // Récupérer l'entité Apply correspondante à l'ID fourni
         $apply = $applyrepo->findOneBy(['id' => $commentData['apply']]);
 
+        // Vérifier si l'entité Apply existe
         if(!$apply){
             return $this->json([
                 'code' => 'APPLY_NOT_FOUND'
             ],Response::HTTP_BAD_REQUEST);
         }
 
+        // Créer une nouvelle instance de l'entité Comment et lui attribuer les données du commentaire
         $comment = new Comment($apply);
         $comment->setContent($commentData['content']);
         $comment->setUser($user);
+
+        // Persister l'entité Comment en base de données
         $entityManagerInterface->persist($comment);
         $entityManagerInterface->flush();
 
@@ -46,6 +54,7 @@ class CommentController extends AbstractController
             'comment' => $comment
         ]);
 
+        // Retourner une réponse JSON avec le code de succès, le message HTML et le nombre total de commentaires pour l'entité Apply
         return $this->json([
             'code' => 'COMMENT_ADDED_SUCCESSFULLY',
             'message' => $html,
