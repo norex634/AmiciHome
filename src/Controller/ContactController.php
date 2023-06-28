@@ -15,7 +15,7 @@ use Symfony\Component\Mailer\MailerInterface;
 class ContactController extends AbstractController
 {
     #[Route('/contact', name: 'contact')]
-    public function index(Request $request, EntityManagerInterface $entityManager, MailerInterface $mailer ): Response
+    public function index(Request $request, EntityManagerInterface $entityManager, MailerInterface $mailer): Response
     {
         $contact = new Contact();
 
@@ -38,7 +38,7 @@ class ContactController extends AbstractController
             // email
             $email = (new Email())
             ->from($contact->getEmail())
-            ->to('admin@amici-wow.be')
+            ->to('contact@amici-wow.be')
             ->subject($contact->getSubject())
             ->html($contact->getMessage());
 
